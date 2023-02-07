@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ myName }}</h1>
+        <p v-once>{{ myAge }}</p>
+        <p>{{ calculateAge() }}</p>
+        <p>오늘의 숫자는: {{ getRandom }}</p>
+        <div>
+        <img v-bind:src="myUrl" />
+        </div>
+        <input type="text" v-bind:value="myName" />
+    </div>
+    <script>
+        const instance = Vue.createApp({
+            data() {
+                return {
+                    myName: '김건희',
+                    myAge: 25,
+                    myUrl: './pikachu.png',
+                }
+            },
+            methods: {
+                calculateAge() {
+                    return this.myAge + 5;
+                }
+            },
+            computed: {
+                getRandom() {
+                    return Math.random()
+                }
+            }
+        })
+        instance.mount('#app');
+    </script>
+</body>
+</html>

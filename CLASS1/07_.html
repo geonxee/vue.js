@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        h1 {
+            color: blue;
+        }
+        #list {
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-top: 0.5px;
+            padding-bottom: 0.5px;
+            margin: 5px;
+            background-color: grey;
+            background-color: rgba(0,0,0,0.2);
+        }
+        #list > p strong {
+            width:80px;
+            display: inline-block;
+        }
+        #check {
+            margin: 5px;
+        }
+        .btn {
+            border:1px solid #999;
+            padding: 5px 10px;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            position: absolute;
+            top: 0px;
+            right: 10px;
+        }
+        #list > p {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 ref="title">Students List</h1>
+        <button id="check" @click="change">확인</button>
+        <div id="list" v-for="(item, i) in myDatas" :key="item.id">
+            <p>
+                <strong>Name</strong> : {{ myDatas[i].name }}<br>
+                <strong>City</strong> : {{ myDatas[i].address.city }}<br>
+                <strong>Street</strong> : {{ myDatas[i].address.street }}<br>
+                <strong>E-mail</strong> : <a href=" 'mailto:' + myDatas.email">{{ myDatas[i].email }}</a><br>
+                <strong>Phone</strong> : {{ myDatas[i].phone }}<br>
+                <a href="" class="btn" @click.prevent="del(i)">삭제</a>
+            </p>
+        </div>
+    </div>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    myDatas: []
+                }
+            },
+            methods: {
+                del(index) {
+                    this.myDatas.splice(index, 1);
+                },
+                change() {
+                    this.$refs.title.textContent = '바꿨다.'
+                }
+            },
+            async created() {
+                let response = await fetch('https://jsonplaceholder.typicode.com/users')
+                this.myDatas = await response.json()
+                // .then(response => response.json())
+                    //     .then(users => {
+                    //         const results = [];
+                    //         for(const id in users) {
+                    //             results.push({
+                    //                 name: users[id].name,
+                    //                 city: users[id].address.city,
+                    //                 street: users[id].address.street,
+                    //                 email: users[id].email,
+                    //                 phone: users[id].phone,
+                    //             })
+                    //         }
+                        //     this.myDatas = results;
+                        //     console.log(this.myDatas);
+                        // })
+
+            }
+        }).mount('#app')
+    </script>
+    
+</body>
+</html>
